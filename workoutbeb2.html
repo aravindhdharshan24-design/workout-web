@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PeakFit Studio - Train Strong. Live Better.</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #1a1a1a;
+      background-color: #ffffff;
+      line-height: 1.6;
+    }
+
+    /* ===== HEADER & NAVIGATION ===== */
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #f0f0f0;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.5px;
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      flex: 1;
+      margin-left: 60px;
+    }
+
+    nav a {
+      color: #666;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #1a1a1a;
+    }
+
+    nav a.active {
+      color: #1a1a1a;
+      position: relative;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .theme-toggle {
+      width: 44px;
+      height: 24px;
+      background: #00d084;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .theme-toggle::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      top: 2px;
+      right: 2px;
+      transition: left 0.2s;
+    }
+
+    .sign-in {
+      padding: 8px 16px;
+      background: #00d084;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .sign-in:hover {
+      background: #00c875;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 208, 132, 0.25);
+    }
+
+    .sign-in:active {
+      transform: translateY(0);
+      background: #00b866;
+      box-shadow: 0 1px 3px rgba(0, 208, 132, 0.15);
+    }
+
+    .profile-icon {
+      width: 32px;
+      height: 32px;
+      background: #e0e0e0;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      padding: 80px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+      align-items: center;
+    }
+
+    .hero-content h1 {
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      color: #1a1a1a;
+    }
+
+    .hero-content h1 .accent {
+      color: #00d084;
+    }
+
+    .hero-content p {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 32px;
+      line-height: 1.8;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .btn-primary {
+      padding: 14px 32px;
+      background: #00d084;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #00c875;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 208, 132, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 208, 132, 0.2);
+      background: #00b866;
+    }
+
+    .btn-secondary {
+      padding: 14px 32px;
+      background: transparent;
+      color: #00d084;
+      border: 2px solid #00d084;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: #f0fdf8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 208, 132, 0.2);
+    }
+
+    .btn-secondary:active {
+      transform: translateY(0);
+      background: #e8fcf4;
+      box-shadow: 0 2px 4px rgba(0, 208, 132, 0.1);
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 40px;
+      font-size: 13px;
+      color: #999;
+      margin-top: 20px;
+    }
+
+    .hero-meta span {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .hero-image {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #f5f5f5;
+    }
+
+    .image-badge {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* ===== WELCOME SECTION ===== */
+    .welcome {
+      padding: 80px 40px;
+      background: #ffffff;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      color: #00d084;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .welcome-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 48px;
+      align-items: start;
+    }
+
+    .welcome-images {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .welcome-images img {
+      width: 160px;
+      height: 200px;
+      border-radius: 8px;
+      background: #f5f5f5;
+      object-fit: cover;
+    }
+
+    .welcome-content h3 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+    }
+
+    .welcome-content p {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .stats-badge {
+      display: inline-block;
+      font-size: 48px;
+      font-weight: 700;
+      color: #00d084;
+      margin-bottom: 32px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .feature-box {
+      text-align: center;
+      padding: 24px;
+      background: #f9f9f9;
+      border-radius: 8px;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 16px;
+      font-size: 28px;
+    }
+
+    .feature-box h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .feature-box p {
+      font-size: 12px;
+      color: #999;
+      line-height: 1.6;
+    }
+
+    /* ===== FORM SECTION ===== */
+    .form-section {
+      background: #f5f5f5;
+      padding: 60px 40px;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 48px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-container h2 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .form-container p {
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #00d084;
+      box-shadow: 0 0 0 3px rgba(0, 208, 132, 0.1);
+    }
+
+    .form-group input::placeholder {
+      color: #bbb;
+    }
+
+    .form-error {
+      font-size: 12px;
+      color: #e74c3c;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .form-group input.error {
+      border-color: #e74c3c;
+    }
+
+    .form-group input.error ~ .form-error {
+      display: block;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 14px 24px;
+      background: #00d084;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 16px;
+    }
+
+    .form-submit:hover {
+      background: #00c875;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 208, 132, 0.3);
+    }
+
+    .form-submit:active {
+      transform: translateY(0);
+      background: #00b866;
+      box-shadow: 0 2px 4px rgba(0, 208, 132, 0.2);
+    }
+
+    .form-submit:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .form-message {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 13px;
+      display: none;
+    }
+
+    .form-message.success {
+      background: #d4edda;
+      color: #155724;
+      display: block;
+    }
+
+    .form-message.error {
+      background: #f8d7da;
+      color: #721c24;
+      display: block;
+    }
+
+    /* ===== WHY TRAIN SECTION ===== */
+    .why-train {
+      padding: 80px 40px;
+      background: #ffffff;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .why-train .section-title {
+      margin-bottom: 48px;
+    }
+
+    .why-train-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+
+    .train-card {
+      text-align: center;
+    }
+
+    .train-card-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 24px;
+      font-size: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f0f0;
+      border-radius: 8px;
+    }
+
+    .train-card h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+    }
+
+    .train-card p {
+      font-size: 13px;
+      color: #999;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .train-card a {
+      color: #00d084;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .train-card a:hover {
+      color: #00c875;
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      background: linear-gradient(135deg, #1a4d4d 0%, #2a6b6b 100%);
+      padding: 60px 40px;
+      text-align: center;
+      color: white;
+    }
+
+    .cta-section h2 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .cta-section p {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+    }
+
+    .cta-section .btn-primary {
+      background: #00d084;
+      padding: 14px 40px;
+      font-size: 15px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #f9f9f9;
+      border-top: 1px solid #f0f0f0;
+      padding: 60px 40px 40px;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-section h4 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 12px;
+    }
+
+    .footer-section ul li a {
+      color: #666;
+      font-size: 13px;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-section ul li a:hover {
+      color: #1a1a1a;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid #f0f0f0;
+      color: #999;
+      font-size: 12px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .social-links a {
+      color: #666;
+      font-size: 14px;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .social-links a:hover {
+      color: #1a1a1a;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .welcome-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .why-train-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 16px 20px;
+        flex-wrap: wrap;
+      }
+
+      nav {
+        margin-left: 20px;
+        gap: 16px;
+        font-size: 12px;
+      }
+
+      .hero-content h1 {
+        font-size: 36px;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .form-container {
+        padding: 32px 24px;
+      }
+
+      .why-train-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hero {
+        padding: 40px 20px;
+      }
+
+      .welcome, .why-train, .cta-section {
+        padding: 40px 20px;
+      }
+
+      footer {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">PeakFit</div>
+    <nav>
+      <a href="#" class="active">Fitness Modes</a>
+      <a href="#">Training</a>
+      <a href="#">Nutrition & Supplements</a>
+      <a href="#">Health</a>
+    </nav>
+    <div class="header-right">
+      <button class="theme-toggle"></button>
+      <button class="sign-in">Sign In</button>
+      <div class="profile-icon"></div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
+      <p style="color: #00d084; font-size: 13px; font-weight: 600; margin-bottom: 16px;">THE FUTURE OF FITNESS</p>
+      <h1>Train <span class="accent">Strong.</span><br>Live Better.</h1>
+      <p>Experience a transformative fitness journey with our cutting-edge training programs, personalized nutrition plans, and expert guidance to help you achieve your goals faster.</p>
+      <div class="hero-cta">
+        <button class="btn-primary">Get Started</button>
+        <button class="btn-secondary">Learn More</button>
+      </div>
+      <div class="hero-meta">
+        <span>✓ No Experience Needed</span>
+        <span>✓ 24/7 Access Available</span>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&h=400&fit=crop" alt="Fitness training">
+      <div class="image-badge">💪 Transform Your Fitness Goals</div>
+    </div>
+  </section>
+
+  <!-- FORM SECTION -->
+  <section class="form-section">
+    <div class="form-container">
+      <h2>Join PeakFit Today</h2>
+      <p>Start your fitness transformation with personalized training and nutrition guidance</p>
+      <form id="peakfitForm">
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" name="name" placeholder="John Doe" required>
+          <div class="form-error">Please enter your full name</div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" placeholder="john@example.com" required>
+          <div class="form-error">Please enter a valid email address</div>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000" required>
+          <div class="form-error">Please enter a valid phone number</div>
+        </div>
+        <button type="submit" class="form-submit">Start Free Trial</button>
+        <div class="form-message" id="formMessage"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- WELCOME SECTION -->
+  <section class="welcome">
+    <p class="section-label">WELCOME</p>
+    <h2 class="section-title">Welcome to PeakFit Studio</h2>
+    
+    <div class="welcome-grid">
+      <div class="welcome-images">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=200&h=250&fit=crop" alt="Gym equipment">
+        <img src="https://images.unsplash.com/photo-1541534528006-92a6b58cfb8b?w=200&h=250&fit=crop" alt="Personal training">
+        <img src="https://images.unsplash.com/photo-1552821081-7a9d0a1a0987?w=200&h=250&fit=crop" alt="Fitness coaching">
+      </div>
+      <div class="welcome-content">
+        <h3>100%</h3>
+        <p>At PeakFit Studio, we're dedicated to transforming your fitness journey. Our expert trainers, state-of-the-art facilities, and personalized nutrition programs are designed to help you achieve sustainable results and build a healthier lifestyle.</p>
+        
+        <div class="features-grid">
+          <div class="feature-box">
+            <div class="feature-icon">⭐</div>
+            <h4>Personalized Plans</h4>
+            <p>Custom workout and nutrition programs tailored to your goals</p>
+          </div>
+          <div class="feature-box">
+            <div class="feature-icon">🏆</div>
+            <h4>High-Quality Training</h4>
+            <p>Expert certified trainers with proven track records</p>
+          </div>
+          <div class="feature-box">
+            <div class="feature-icon">🎯</div>
+            <h4>Expert-Curated</h4>
+            <p>Evidence-based programs designed by fitness professionals</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY TRAIN SECTION -->
+  <section class="why-train">
+    <h2 class="section-title">Why Train At PeakFit</h2>
+    
+    <div class="why-train-grid">
+      <div class="train-card">
+        <div class="train-card-icon">👨‍🏫</div>
+        <h4>Experienced Team</h4>
+        <p>Our team of certified trainers brings decades of combined experience and expertise to help you succeed</p>
+        <a href="#">Learn more ›</a>
+      </div>
+      <div class="train-card">
+        <div class="train-card-icon">⚙️</div>
+        <h4>Modern Equipment</h4>
+        <p>Access to cutting-edge fitness technology and equipment for comprehensive training</p>
+        <a href="#">Learn more ›</a>
+      </div>
+      <div class="train-card">
+        <div class="train-card-icon">📊</div>
+        <h4>Results-Focused</h4>
+        <p>Data-driven approach to fitness with regular progress tracking and measurable outcomes</p>
+        <a href="#">Learn more ›</a>
+      </div>
+      <div class="train-card">
+        <div class="train-card-icon">💪</div>
+        <h4>Body-Focused</h4>
+        <p>Comprehensive programs targeting all aspects of fitness and body composition improvement</p>
+        <a href="#">Learn more ›</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="cta-section">
+    <h2>Ready to Start Your Fitness Journey?</h2>
+    <p>Join thousands of members who have transformed their lives with PeakFit. Start your free trial today and experience the difference personalized training can make.</p>
+    <button class="btn-primary">Start Your Free Trial</button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>PeakFit Studio</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Our Team</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Programs</a></li>
+          <li><a href="#">Classes</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#">info@peakfit.com</a></li>
+          <li><a href="#">+1 (555) 123-4567</a></li>
+          <li><a href="#">123 Fitness Ave, NY</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 PeakFit Studio. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwfIfrZctRX4gn1MJg8YfjhdFWDnpDimM1E3BN6IC92dafGZ3KQFEjOOixf6V9uqOkBEw/exec';
+    
+    const form = document.getElementById('peakfitForm');
+    const formMessage = document.getElementById('formMessage');
+
+    function validateForm() {
+      let isValid = true;
+      const inputs = form.querySelectorAll('input[required]');
+      
+      inputs.forEach(input => {
+        input.classList.remove('error');
+        
+        if (!input.value.trim()) {
+          input.classList.add('error');
+          isValid = false;
+        } else if (input.name === 'email') {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(input.value)) {
+            input.classList.add('error');
+            isValid = false;
+          }
+        } else if (input.name === 'phone') {
+          const phoneRegex = /^[\d\s\-\+\(\)]{10,}$/;
+          if (!phoneRegex.test(input.value.replace(/\s/g, ''))) {
+            input.classList.add('error');
+            isValid = false;
+          }
+        }
+      });
+      
+      return isValid;
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      formMessage.textContent = '';
+      formMessage.className = 'form-message';
+      
+      if (!validateForm()) {
+        return;
+      }
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      const url = SCRIPT_URL + '?' + new URLSearchParams({name, email, phone});
+
+      fetch(url, { method: 'GET', mode: 'no-cors' })
+        .then(() => {
+          showSuccess();
+        })
+        .catch(() => {
+          showError();
+        });
+    });
+
+    function showSuccess() {
+      formMessage.textContent = '✓ Successfully registered! We\'ll contact you soon.';
+      formMessage.className = 'form-message success';
+      form.reset();
+      document.querySelectorAll('input').forEach(input => input.classList.remove('error'));
+    }
+
+    function showError() {
+      formMessage.textContent = '✗ Something went wrong. Please try again.';
+      formMessage.className = 'form-message error';
+    }
+
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', function() {
+        this.classList.remove('error');
+      });
+    });
+  </script>
+
+</body>
+</html>
